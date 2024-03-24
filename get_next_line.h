@@ -6,7 +6,7 @@
 /*   By: gepavel <gepavel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 19:23:50 by gepavel           #+#    #+#             */
-/*   Updated: 2024/03/19 14:36:34 by gepavel          ###   ########.fr       */
+/*   Updated: 2024/03/21 17:56:08 by gepavel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@
 # include <unistd.h>
 
 char	*get_next_line(int fd);
-int		main(void);
-
-
-
+char	*ft_strjoin(char *s1, char *s2);
+int		ft_strchr(char *s, int c);
+int		ft_strlen(char *str);
 
 #endif
