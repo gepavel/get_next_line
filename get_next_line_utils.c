@@ -6,7 +6,7 @@
 /*   By: gepavel <gepavel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:59:05 by gepavel           #+#    #+#             */
-/*   Updated: 2024/03/20 18:12:59 by gepavel          ###   ########.fr       */
+/*   Updated: 2024/03/25 20:19:35 by gepavel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	ft_strlen(char *str)
 	int		i;
 
 	i = 0;
-	if (!str)
-		return (0);
+	if (str == NULL)
+		return (i);  
 	while (str[i] != '\0')
 		i++;
 	return (i);	
@@ -29,11 +29,13 @@ int	ft_strchr(char *s, int c)
 	int		i;
 
 	i = 0;
+	if (s == NULL)
+		return (-1);
 	while (s[i] && s[i] != (char)c)
 		i++;
 	if (!c || s[i] == (char)c)
 		return (i);
-	return (0);
+	return (-1);
 }
 
 char	*ft_strjoin(char *s1, char *s2)

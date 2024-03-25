@@ -6,18 +6,21 @@
 /*   By: gepavel <gepavel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:21:54 by gepavel           #+#    #+#             */
-/*   Updated: 2024/03/21 17:55:21 by gepavel          ###   ########.fr       */
+/*   Updated: 2024/03/25 20:43:34 by gepavel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-char	*ft_strjoin_aux(char *s_str, char *apend)
+
+static char	*ft_strjoin_aux(char *s_str, char *apend)
 {
 	char 	*aux;
 
+	if (!s_str && !apend)
+		return (NULL);
 	aux = ft_strjoin(s_str, apend);
-	if (!s_str)
-		return (aux);
+	if (!aux)
+		return (NULL);
 	free(s_str);
 	return (aux);
 }
@@ -31,17 +34,19 @@ static char *ft_save_line(char *s_str)
 	i = 0;
 	if (!s_str)
 		return (NULL);
-	str = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
+	str = (char *)malloc(BUFFER_SIZE + 1);
 	if (!str)
 		return (NULL);
-	j = ft_strchr(s_str, '\n');
-	printf("j es;%d\n", j);
-	while (s_str[j + i] != '\0')
+	j = ft_strchr(s_str, '\n') + 1;
+	if (j > 0)
 	{
-		str[i] = s_str[j + i];
-		i++;
+		while (s_str[j + i] != '\0')
+		{
+			str[i] = s_str[j + i];
+			i++;
+		}
+		str[i] = '\0';
 	}
-	str[i] = '\0';
 	return (free(s_str), str);
 }
 
@@ -53,7 +58,7 @@ static char	*ft_return_line(char *s_str)
 
 	i = 0;
 	len = ft_strchr(s_str, '\n');
-	if (ft_strchr(s_str, '\n'))
+	if (len > -1)
 	{
 		line = (char *)malloc((sizeof(char) * len) + 2);
 		if (!line)
@@ -66,7 +71,7 @@ static char	*ft_return_line(char *s_str)
 		line[i] = '\n';
 		line[i + 1] = '\0';
 	}
-	else 
+	else
 		return (s_str);
 	return (line);
 }
@@ -81,14 +86,14 @@ static char	*ft_read_fd(int fd, char *s_str)
 	while (len > 0)
 	{
 		len = read(fd, aux, BUFFER_SIZE);
-//		printf("len es:%d\n", len);
-		if(len == 0)
+		printf("len:%d\n", len);
+		if(len < 0)
 			return (free (aux), free (s_str), NULL);
+		if (len == 0)
+			break;
 		aux[len] = '\0';
-//		printf("aux es:%s\n", aux);
 		s_str = ft_strjoin_aux(s_str, aux);
-//		printf("s_str es:%s\n", s_str);
-		if (ft_strchr(s_str, '\n') != 0)
+		if (len == 0 || ft_strchr(s_str, '\n') != -1)
 			break;
 	}
 	free (aux);
@@ -98,14 +103,15 @@ static char	*ft_read_fd(int fd, char *s_str)
 char		*get_next_line(int fd)
 {
 	char			*line;
-	static char		*s_str = NULL;
+	static char		*s_str;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	s_str = ft_read_fd(fd, s_str);
-	if (!s_str)
+	if (s_str == NULL)
 		return (NULL);
 	line = ft_return_line(s_str);
-	s_str = ft_save_line(s_str);
+	if (ft_strchr(s_str, '\n') != -1)
+		s_str = ft_save_line(s_str);
 	return (line);
-}
+}	

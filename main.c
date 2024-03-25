@@ -6,7 +6,7 @@
 /*   By: gepavel <gepavel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 18:10:14 by gepavel           #+#    #+#             */
-/*   Updated: 2024/03/21 17:55:19 by gepavel          ###   ########.fr       */
+/*   Updated: 2024/03/25 20:25:19 by gepavel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,19 @@ int	main(void)
 {
 	int		fd;
 	char	*str;
+	int		flag = 5;
+	int		i = 1;
 
 	fd = open("text.txt", O_RDONLY);
-	printf("el fd en open es:%d\n", fd);
-	str = get_next_line(fd);
-	printf("[%s]", str);
-	while (str)
+	if (fd < 1)
+		return (printf("wrong fd:%d\n", fd), 0);
+	while (flag-- > 0)
 	{
-		free(str);
+		printf("vuelta:%d\n", i++);
 		str = get_next_line(fd);
-		printf("[%s]", str);
+		if (str == NULL)
+			return (free (str), 0);
+		printf("[%s]\n", str);
 	}
 	close(fd);
 	return (0);
