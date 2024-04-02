@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+ 	/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
@@ -50,29 +50,41 @@ static char *ft_save_line(char *s_str)
 	return (free(s_str), str);
 }
 
-static char	*ft_return_line(char *s_str)
+static char	*ft_return_line(char **s_str)
 {
 	int		i;
 	char	*line;
 	int		len;
 
 	i = 0;
-	len = ft_strchr(s_str, '\n');
-	if (len > -1)
+	len = ft_strchr(*s_str, '\n');
+	if (len >= 0)
 	{
 		line = (char *)malloc((sizeof(char) * len) + 2);
 		if (!line)
-			return (free(s_str), NULL);
-		while (s_str[i] != '\n')
+			return (free(*s_str), NULL);
+		while ((*s_str)[i] != '\0' && (*s_str)[i] != '\n')
 		{
-			line[i] = s_str[i];
+			line[i] = (*s_str)[i];
 			i++;
 		}
-		line[i] = '\n';
+		line[i] = '\n';	
 		line[i + 1] = '\0';
 	}
 	else
-		return (s_str);
+	{
+		line = (char *)malloc((sizeof(char) * ft_strlen(*s_str)) + 1);
+		if (!line)
+			return (free(*s_str), NULL);
+		while ((*s_str)[i] != '\0')
+		{
+			line[i] = (*s_str)[i];
+			i++;
+		}
+		line[i] = '\0';
+		free(*s_str);
+		*s_str = NULL;
+	}
 	return (line);
 }
 
@@ -86,14 +98,14 @@ static char	*ft_read_fd(int fd, char *s_str)
 	while (len > 0)
 	{
 		len = read(fd, aux, BUFFER_SIZE);
-		printf("len:%d\n", len);
+//		printf("len:%d\n", len);
 		if(len < 0)
 			return (free (aux), free (s_str), NULL);
 		if (len == 0)
 			break;
 		aux[len] = '\0';
 		s_str = ft_strjoin_aux(s_str, aux);
-		if (len == 0 || ft_strchr(s_str, '\n') != -1)
+		if (ft_strchr(s_str, '\n') != -1)
 			break;
 	}
 	free (aux);
@@ -110,8 +122,8 @@ char		*get_next_line(int fd)
 	s_str = ft_read_fd(fd, s_str);
 	if (s_str == NULL)
 		return (NULL);
-	line = ft_return_line(s_str);
-	if (ft_strchr(s_str, '\n') != -1)
+	line = ft_return_line(&s_str);
+	if (s_str && ft_strchr(s_str, '\n') != -1)
 		s_str = ft_save_line(s_str);
 	return (line);
 }	
