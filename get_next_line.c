@@ -12,42 +12,29 @@
 
 #include "get_next_line.h"
 
-static char	*ft_strjoin_aux(char *s_str, char *apend)
+static char	*ft_strjoin_aux(char *str, char *apend)
 {
 	char 	*aux;
 
-	if (!s_str && !apend)
+	if (!str && !apend)
 		return (NULL);
-	aux = ft_strjoin(s_str, apend);
+	aux = ft_strjoin(str, apend);
 	if (!aux)
 		return (NULL);
-	free(s_str);
-	return (aux);
+	free(str);
+	return (aux); 
 }
 
-static char *ft_save_line(char *s_str)
+static char *ft_save_line(char **s_str)
 {
 	char	*str;
-	int		i;
-	int		j;
+	int		len;
 
-	i = 0;
-	j = ft_strchr(s_str, '\n') + 1;
-	if (s_str[j + 1] == '\0')
-		return (free(s_str), NULL);
-	str = (char *)malloc(ft_strlen(&s_str[j + 1]) + 1);
-	if (!str)
-		return (NULL);
-	if (j > 0)
-	{
-		while (s_str[j + i] != '\0')
-		{
-			str[i] = s_str[j + i];
-			i++;
-		}
-		str[i] = '\0';
-	}
-	return (free(s_str), str);
+	if (ft_strchr(*s_str, '\n') + 1 == ft_strlen(*s_str))
+		return (free(*s_str), *s_str = NULL, NULL);
+	len = ft_strchr(*s_str, '\n') + 1;
+	str = ft_strjoin(NULL, &(s_str[0][len]));
+	return (free(*s_str), *s_str = NULL, str);
 }
 
 static char	*ft_return_line(char **s_str)
@@ -57,12 +44,12 @@ static char	*ft_return_line(char **s_str)
 	int		len;
 
 	i = -1;
-	if (*s_str == NULL)
+	if (s_str == NULL)
 		return (NULL);
 	if (ft_strchr(*s_str, '\n') != -1)
 		len = ft_strchr(*s_str, '\n') + 2;
 	else
-		len = ft_strlen(*s_str) + 1;
+		len = ft_strlen(*s_str) + 1; 
 	line = (char *)malloc((sizeof(char) * len));
 	if (!line)
 		return (free(*s_str), NULL);
@@ -108,7 +95,7 @@ static char	*ft_read_fd(int fd, char *s_str)
 char		*get_next_line(int fd)
 {
 	char			*line;
-	static char		*s_str = NULL;
+	static char		*s_str;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
@@ -117,7 +104,7 @@ char		*get_next_line(int fd)
 		return (NULL);
 	line = ft_return_line(&s_str);
 	if (s_str && ft_strchr(s_str, '\n') != -1)
-		s_str = ft_save_line(s_str);
+		s_str = ft_save_line(&s_str);
 	else
 		free (s_str);
 	return (line);
