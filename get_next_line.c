@@ -32,7 +32,7 @@ static char *ft_save_line(char *s_str)
 	int		j;
 
 	i = 0;
-	if (!s_str)
+	if ())
 		return (NULL);
 	str = (char *)malloc(BUFFER_SIZE + 1);
 	if (!str)
@@ -56,31 +56,25 @@ static char	*ft_return_line(char **s_str)
 	char	*line;
 	int		len;
 
-	i = 0;
-	len = ft_strchr(*s_str, '\n');
-	if (len >= 0)
+	i = -1;
+	if (*s_str == NULL)
+		return (NULL);
+	if (ft_strchr(*s_str, '\n') != -1)
+		len = ft_strchr(*s_str, '\n') + 2;
+	else
+		len = ft_strlen(*s_str) + 1;
+	line = (char *)malloc((sizeof(char) * len));
+	if (!line)
+		return (free(*s_str), NULL);
+	while ((*s_str)[++i] != '\0' && (*s_str)[i] != '\n' && --len >= 0)
+		line[i] = (*s_str)[i];
+	if (ft_strchr(*s_str, '\n') != -1)
 	{
-		line = (char *)malloc((sizeof(char) * len) + 2);
-		if (!line)
-			return (free(*s_str), NULL);
-		while ((*s_str)[i] != '\0' && (*s_str)[i] != '\n')
-		{
-			line[i] = (*s_str)[i];
-			i++;
-		}
-		line[i] = '\n';	
+		line[i] = '\n';
 		line[i + 1] = '\0';
 	}
 	else
 	{
-		line = (char *)malloc((sizeof(char) * ft_strlen(*s_str)) + 1);
-		if (!line)
-			return (free(*s_str), NULL);
-		while ((*s_str)[i] != '\0')
-		{
-			line[i] = (*s_str)[i];
-			i++;
-		}
 		line[i] = '\0';
 		free(*s_str);
 		*s_str = NULL;
@@ -98,7 +92,6 @@ static char	*ft_read_fd(int fd, char *s_str)
 	while (len > 0)
 	{
 		len = read(fd, aux, BUFFER_SIZE);
-//		printf("len:%d\n", len);
 		if(len < 0)
 			return (free (aux), free (s_str), NULL);
 		if (len == 0)
@@ -115,7 +108,7 @@ static char	*ft_read_fd(int fd, char *s_str)
 char		*get_next_line(int fd)
 {
 	char			*line;
-	static char		*s_str;
+	static char		*s_str = NULL;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);

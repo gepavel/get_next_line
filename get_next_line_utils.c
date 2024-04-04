@@ -6,7 +6,7 @@
 /*   By: gepavel <gepavel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:59:05 by gepavel           #+#    #+#             */
-/*   Updated: 2024/03/25 20:19:35 by gepavel          ###   ########.fr       */
+/*   Updated: 2024/04/03 18:50:40 by gepavel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_strlen(char *str)
 
 	i = 0;
 	if (str == NULL)
-		return (i);  
+		return (0);  
 	while (str[i] != '\0')
 		i++;
 	return (i);	
