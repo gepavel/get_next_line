@@ -32,12 +32,12 @@ static char *ft_save_line(char *s_str)
 	int		j;
 
 	i = 0;
-	if ())
-		return (NULL);
-	str = (char *)malloc(BUFFER_SIZE + 1);
+	j = ft_strchr(s_str, '\n') + 1;
+	if (s_str[j + 1] == '\0')
+		return (free(s_str), NULL);
+	str = (char *)malloc(ft_strlen(&s_str[j + 1]) + 1);
 	if (!str)
 		return (NULL);
-	j = ft_strchr(s_str, '\n') + 1;
 	if (j > 0)
 	{
 		while (s_str[j + i] != '\0')
@@ -118,5 +118,7 @@ char		*get_next_line(int fd)
 	line = ft_return_line(&s_str);
 	if (s_str && ft_strchr(s_str, '\n') != -1)
 		s_str = ft_save_line(s_str);
+	else
+		free (s_str);
 	return (line);
 }	
