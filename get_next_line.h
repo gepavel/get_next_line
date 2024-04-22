@@ -6,7 +6,7 @@
 /*   By: gepavel <gepavel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 19:23:50 by gepavel           #+#    #+#             */
-/*   Updated: 2024/04/18 13:26:14 by gepavel          ###   ########.fr       */
+/*   Updated: 2024/04/22 15:46:04 by gepavel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE  1
 # endif	
 
 # include <stdlib.h>

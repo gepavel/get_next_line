@@ -6,7 +6,7 @@
 /*   By: gepavel <gepavel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:21:54 by gepavel           #+#    #+#             */
-/*   Updated: 2024/04/18 13:29:16 by gepavel          ###   ########.fr       */
+/*   Updated: 2024/04/22 18:11:42 by gepavel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,12 @@ static char	*ft_strjoin_aux(char **str, char *apend)
 static char	*ft_save_line(char **s_str)
 {
 	char	*str;
+	int		nl_pos;
 
-	if (ft_strchr_pos(*s_str, '\n') + 1 == ft_strlen(*s_str))
+	nl_pos = ft_strchr_pos(*s_str, '\n');
+	if (nl_pos + 1 == ft_strlen(*s_str))
 		return (free(*s_str), *s_str = NULL, NULL);
-	str = ft_strjoin_pos(NULL, &(s_str[0][ft_strchr_pos(*s_str, '\n') + 1]));
+	str = ft_strjoin_dup(NULL, &(s_str[0][nl_pos + 1]));
 	return (free(*s_str), *s_str = NULL, str);
 }
 

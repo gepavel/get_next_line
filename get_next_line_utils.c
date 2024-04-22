@@ -6,7 +6,7 @@
 /*   By: gepavel <gepavel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:59:05 by gepavel           #+#    #+#             */
-/*   Updated: 2024/04/17 14:28:28 by gepavel          ###   ########.fr       */
+/*   Updated: 2024/04/22 18:00:26 by gepavel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-int	ft_strchr(char *s, int c)
+int	ft_strchr_pos(char *s, int c)
 {
 	int		i;
 
@@ -38,7 +38,7 @@ int	ft_strchr(char *s, int c)
 	return (-1);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin_dup(char *s1, char *s2)
 {
 	char		*str;
 	int			i;
