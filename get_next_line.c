@@ -6,7 +6,7 @@
 /*   By: gepavel <gepavel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:21:54 by gepavel           #+#    #+#             */
-/*   Updated: 2024/04/22 18:11:42 by gepavel          ###   ########.fr       */
+/*   Updated: 2024/05/13 19:26:00 by gepavel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ static char	*ft_read_fd(int fd, char **s_str)
 	char	*aux;
 
 	aux = (char *)malloc(BUFFER_SIZE + 1);
+	if (aux == NULL)
+		return (NULL);
 	len = 1;
 	while (len > 0)
 	{
@@ -80,14 +82,14 @@ static char	*ft_read_fd(int fd, char **s_str)
 		if (ft_strchr_pos(*s_str, '\n') != -1)
 			break ;
 	}
-	free (aux);
+	free(aux);
 	return (*s_str);
 }
 
 char	*get_next_line(int fd)
 {
 	char			*line;
-	static char		*s_str = NULL;
+	static char		*s_str;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);

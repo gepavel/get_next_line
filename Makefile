@@ -3,7 +3,7 @@ NAME =  gnl
 
 COMPILER = clang
 
-FLAGS = -Wall -Werror -Wextra ##-fsanitize=address -g3
+FLAGS = -Wall -Werror -Wextra -fsanitize=address -g3
 
 HEADERFILE = get_next_line.h
 
