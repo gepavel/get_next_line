@@ -66,9 +66,7 @@ static char	*ft_read_fd(int fd, char **s_str)
 	int		len;
 	char	*aux;
 
-	aux = (char *)malloc(BUFFER_SIZE + 1);
-	if (aux == NULL)
-		return (NULL);
+	aux = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
 	len = 1;
 	while (len > 0)
 	{
@@ -89,7 +87,7 @@ static char	*ft_read_fd(int fd, char **s_str)
 char	*get_next_line(int fd)
 {
 	char			*line;
-	static char		*s_str;
+	static char		*s_str = NULL;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
