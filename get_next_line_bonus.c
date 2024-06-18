@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gepavel <gepavel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 16:21:54 by gepavel           #+#    #+#             */
-/*   Updated: 2024/06/18 13:20:15 by gepavel          ###   ########.fr       */
+/*   Updated: 2024/05/28 15:07:30 by gepavel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*ft_strjoin_aux(char **str, char *apend)
 {
@@ -79,6 +79,8 @@ static char	*ft_read_fd(int fd, char **s_str)
 			break ;
 		aux[len] = '\0';
 		*s_str = ft_strjoin_aux(s_str, aux);
+		if (ft_strchr_pos(*s_str, '\n') != -1)
+			break ;
 	}
 	free(aux);
 	return (*s_str);
@@ -87,20 +89,20 @@ static char	*ft_read_fd(int fd, char **s_str)
 char	*get_next_line(int fd)
 {
 	char			*line;
-	static char		*s_str = NULL;
+	static char		*s_str[1024];
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
-	s_str = ft_read_fd(fd, &s_str);
-	if (s_str == NULL)
+	s_str[fd] = ft_read_fd(fd, &s_str[fd]);
+	if (s_str[fd] == NULL)
 		return (NULL);
-	line = ft_return_line(&s_str);
-	if (s_str != NULL && ft_strchr_pos(s_str, '\n') != -1)
-		s_str = ft_save_line(&s_str);
+	line = ft_return_line(&s_str[fd]);
+	if (s_str[fd] != NULL && ft_strchr_pos(s_str[fd], '\n') != -1)
+		s_str[fd] = ft_save_line(&s_str[fd]);
 	else
 	{
-		free (s_str);
-		s_str = NULL;
+		free (s_str[fd]);
+		s_str[fd] = NULL;
 	}
 	return (line);
 }

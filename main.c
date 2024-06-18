@@ -6,7 +6,7 @@
 /*   By: gepavel <gepavel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 18:10:14 by gepavel           #+#    #+#             */
-/*   Updated: 2024/04/22 14:49:54 by gepavel          ###   ########.fr       */
+/*   Updated: 2024/05/28 13:21:09 by gepavel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	main(void)
 	{
 		printf("vuelta:%d\n", i++);
 		printf("[%s]\n", str);
+		free(str);
 		str = get_next_line(fd);
 	}
 	close(fd);
